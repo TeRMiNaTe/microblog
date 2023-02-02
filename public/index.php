@@ -1,6 +1,5 @@
 <?php
 
-use Monolog\Logger;
 use Slim\App;
 
 /**
@@ -8,19 +7,14 @@ use Slim\App;
  */
 require __DIR__ . '/../vendor/autoload.php';
 
-$config = [
-    'settings' => [
-        'displayErrorDetails' => true,
+// Configuration files
+$app_config = require __DIR__ . '/../config/app.php';
 
-        'logger' => [
-            'name' => 'slim-app',
-            'level' => Logger::DEBUG,
-            'path' => __DIR__ . '/../logs/app.log',
-        ],
-    ],
-];
+$app = new App($app_config);
 
-$app = new App($config);
+// Register routes
+$dependencies = require __DIR__ . '/../config/dependencies.php';
+$dependencies($app);
 
 // Register routes
 $routes = require __DIR__ . '/../routes/web.php';

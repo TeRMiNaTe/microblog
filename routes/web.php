@@ -1,7 +1,8 @@
 <?php
 
 use Slim\App;
-use App\Controllers\HomeController;
+use App\Controllers\AuthController;
+use App\Controllers\BlogController;
 
 /**
  * Route definitions
@@ -9,5 +10,10 @@ use App\Controllers\HomeController;
 
 return function (App $app) {
 
-	$app->get('/', HomeController::class . ':home');
+	$app->get('/', AuthController::class . ':login')->setName('home');
+
+	$app->get('/register', AuthController::class . ':register')->setName('register');
+
+	$app->get('/blog', BlogController::class . ':list')->setName('blog');
+
 };
