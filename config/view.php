@@ -7,16 +7,19 @@ use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 
 /**
- * Application dependencies
+ * Application views
  */
-return function (App $app) {
+return function (App $app) use ($env) {
 	$container = $app->getContainer();
 
 	// Register Twig View helper
-	$container['view'] = function ($c) {
-		$view = new Twig(__DIR__ . '/../resources/views', [
-			'cache' => false
-		]);
+	$container['view'] = function ($c) use ($env) {
+		$template_path = $env['view']['template_path'] ?? __DIR__ . '/../resources/views';
+
+		$view = new Twig($template_path, array_merge_recursive([
+			// Global Twig configuration:
+			// 'debug' => false,
+		], $env['view']['twig']));
 
 		// Instantiate and add Slim specific extension
 		$router = $c->get('router');

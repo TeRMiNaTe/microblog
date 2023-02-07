@@ -1,18 +1,12 @@
 <?php
 
-use Monolog\Logger;
-
 /**
  * Application configuration
+ *
+ * Environment configuration takes priority
  */
-return [
-	'settings' => [
-		'displayErrorDetails' => true,
 
-		'logger' => [
-			'name' => 'slim-app',
-			'level' => Logger::DEBUG,
-			'path' => __DIR__ . '/../logs/app.log',
-		],
-	],
-];
+return array_merge_recursive([
+	// Global app configuration:
+	// 'displayErrorDetails' => true,
+], $env['app']);

@@ -10,7 +10,9 @@
     "require": {
         "slim/slim": "3.*",
         "monolog/monolog": "^3.2",
-        "slim/twig-view": "^2.5"
+        "slim/twig-view": "^2.5",
+        "illuminate/database": "~5.1",
+        "adrianfalleiro/slim-cli-runner": "2.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
@@ -27,6 +29,16 @@
     },
     "scripts": {
         "start": "php -S localhost:8888 -t public public/index.php",
+        "setup": [
+            "@php -r \"file_exists('env.php') || copy('env.php.dist', 'env.php');\"",
+            "php public/index.php migrate refresh 2023_02_07_000000_create_users_table",
+            "php public/index.php migrate refresh 2023_02_07_000000_create_posts_table"
+        ],
         "test": "phpunit"
+    },
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
     }
 }
