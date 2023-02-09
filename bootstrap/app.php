@@ -7,6 +7,8 @@ use Slim\App;
  */
 require __DIR__ . '/../vendor/autoload.php';
 
+session_start();
+
 $env = require __DIR__ . '/../env.php';
 
 $app = new App([
@@ -25,6 +27,10 @@ $database($app);
 // Register view processor
 $view = require __DIR__ . '/../config/view.php';
 $view($app);
+
+// Register Services
+$services = require __DIR__ . '/../config/services.php';
+$services($app);
 
 // Register Middleware
 $middleware = require __DIR__ . '/../config/middleware.php';

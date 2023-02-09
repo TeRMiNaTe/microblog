@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Psr\Container\ContainerInterface;
+use Slim\Router;
 use Slim\Views\Twig;
 
 /**
@@ -10,11 +11,14 @@ use Slim\Views\Twig;
  */
 class BaseController
 {
+	/** @var ContainerInterface The application container */
+	protected ContainerInterface $container;
+
 	/** @var Twig Shortcut to the view component */
 	protected Twig $view;
 
-	/** @var ContainerInterface The application container */
-	protected ContainerInterface $container;
+	/** @var Router The application router */
+	protected Router $router;
 
 	/**
 	 * We use the container to assign some useful properties
@@ -26,5 +30,7 @@ class BaseController
 		$this->container = $container;
 
 		$this->view = $this->container->get('view');
+
+		$this->router = $this->container->get('router');
 	}
 }

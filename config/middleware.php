@@ -1,6 +1,5 @@
 <?php
 
-use adrianfalleiro\SlimCLIRunner;
 use Slim\App;
 
 /**
@@ -8,5 +7,7 @@ use Slim\App;
  */
 return function (App $app) {
 	/** @see Documentation: https://github.com/adrianfalleiro/slim-cli-runner/tree/slim-3 */
-	$app->add(SlimCLIRunner::class);
+	$app->add(\adrianfalleiro\SlimCLIRunner::class);
+
+	$app->add(\App\Middleware\RedirectExceptionHandler::class);
 };

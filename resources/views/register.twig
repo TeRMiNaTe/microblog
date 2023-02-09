@@ -8,21 +8,31 @@
 		<div class="my-5">
 			<h2>Create an account</h2>
 		</div>
-		<form action="#" method="post" role="form" class="php-email-form">
+		<form action="{{ path_for('auth-register') }}" method="post" role="form" class="php-email-form">
 			<div class="row">
 				<div class="col-md-6 form-group mt-3 mt-md-0">
 					<input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
 				</div>
 			</div>
 			<div class="row">
+				<div class="col-md-6 form-group mt-3 mt-md-0">
+					<input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-md-6 form-group">
-					<input type="pasword" name="password" class="form-control" id="password" placeholder="Password" required>
+					<input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
 				</div>
 				<div class="col-md-6 form-group">
-					<input type="pasword" name="repeat_password" class="form-control" id="repeat_password" placeholder="Repeat Password" required>
+					<input type="password" name="repeat_password" class="form-control" id="repeat_password" placeholder="Repeat Password" required>
+				</div>
+				<div class="col-md-12 mb-2">
+					<div class="text-muted">Please use 6+ characters for a more secure password</div>
 				</div>
 			</div>
 			<div class="text-center"><button class="btn btn-secondary form-control" type="submit">Create an account</button></div>
+
+			{% include 'layouts/components/partials/form-error.twig' %}
 		</form>
 		<div class="my-5">
 			<div class="mb-2">Already have an account?</div>
