@@ -7,8 +7,6 @@ use Slim\App;
  */
 require __DIR__ . '/../vendor/autoload.php';
 
-session_start();
-
 $env = require __DIR__ . '/../env.php';
 
 $app = new App([

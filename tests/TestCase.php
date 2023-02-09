@@ -17,4 +17,16 @@ class TestCase extends PHPUnit_TestCase
 
 		return $app;
 	}
+
+	/**
+	 * Generate a random string with numbers
+	 * Taken from @link https://stackoverflow.com/a/13212994/2285615
+	 *
+	 * @param  int $length
+	 * @return string
+	 */
+	protected function generateRandomString(int $length = 10): string
+	{
+		return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+	}
 }

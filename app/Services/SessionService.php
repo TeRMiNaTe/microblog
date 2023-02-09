@@ -8,6 +8,18 @@ namespace App\Services;
 class SessionService extends BaseService
 {
 	/**
+	 * Start the current session
+	 *
+	 * @return void
+	 */
+	public function start(): void
+	{
+		if (session_status() === PHP_SESSION_NONE) {
+			session_start();
+		}
+	}
+
+	/**
 	 * Store a value in the session
 	 *
 	 * @param string $key
