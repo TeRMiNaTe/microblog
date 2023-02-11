@@ -38,10 +38,12 @@ class RoleController extends BaseController
 	 */
 	public function manage(Request $request, Response $response, array $arguments): Response
 	{
+		$user = $this->container->get('auth')->getLoggedInUser();
+
 		if ($request->getParam('action') == 'apply') {
-			$this->roles->grant($arguments['name']);
+			$this->roles->grant($user, $arguments['name']);
 		} elseif ($request->getParam('action') == 'revoke') {
-			$this->roles->revoke($arguments['name']);
+			$this->roles->revoke($user, $arguments['name']);
 		} else {
 			throw new PublicRedirectException('Unrecognized role action');
 		}

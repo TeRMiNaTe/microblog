@@ -37,4 +37,13 @@ class ConfigurationTest extends TestCase
 
 		$this->assertNotEmpty($result);
 	}
+
+	/**
+	 * @return void
+	 */
+	public function testTestEmailIsConfigured(): void
+	{
+		$this->assertNotEmpty($this->getTestEmail());
+	}
+
 }

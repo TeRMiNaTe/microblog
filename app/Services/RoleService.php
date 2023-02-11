@@ -12,57 +12,40 @@ use Psr\Container\ContainerInterface;
  */
 class RoleService extends BaseService
 {
-	/** @var User Instance of the logged in user */
-	protected User $user;
-
 	/**
-	 * Assigns and validates the logged in user
+	 * Grant a role to a user
 	 *
-	 * @inheritDoc
-	 */
-	public function __construct(ContainerInterface $container, ?array $config)
-	{
-		parent::__construct($container, $config);
-
-		if (!$user = $this->container->get('auth')->getLoggedInUser()) {
-			throw new PublicRedirectException('Unable to interact with roles. No logged in user.');
-		}
-
-		$this->user = $user;
-	}
-
-	/**
-	 * Grant a role to the logged in user
-	 *
+	 * @param  User $user
 	 * @param  string $name
 	 * @return void
 	 */
-	public function grant(string $name): void
+	public function grant(User $user, string $name): void
 	{
 		$role = $this->findRole($name);
 
-		if ($this->user->hasRole($role->name)) {
+		if ($user->hasRole($role->name)) {
 			throw new PublicRedirectException('Unable to grant "'.$role->name.'" role. Already exists.');
 		}
 
-		$this->user->roles()->attach($role->id);
+		$user->roles()->attach($role->id);
 	}
 
 	/**
-	 * Remove a role from the logged in user
+	 * Remove a role from a user
 	 *
+	 * @param  User $user
 	 * @param  string $name
 	 * @return void
 	 */
-	public function revoke(string $name): void
+	public function revoke(User $user, string $name): void
 	{
 		$role = $this->findRole($name);
 
-		if (!$this->user->hasRole($role->name)) {
-			throw new PublicRedirectException('Unable to revoke "'.$role->name.'" role. You do not have this role.');
+		if (!$user->hasRole($role->name)) {
+			throw new PublicRedirectException('Unable to revoke "'.$role->name.'" role. Already revoked.');
 		}
 
-		$this->user->roles()->detach($role->id);
+		$user->roles()->detach($role->id);
 	}
 
 	/**

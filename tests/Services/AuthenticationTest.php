@@ -15,9 +15,6 @@ use Throwable;
  */
 class AuthenticationTest extends TestCase
 {
-	/** @var string Email used for the test account, should not exist in the DB */
-	protected const MOCK_EMAIL = 'authentication-test@email.should.not.be.valid';
-
 	/**
 	 * Test that the auth service is loaded
 	 *
@@ -41,7 +38,7 @@ class AuthenticationTest extends TestCase
 		$another_password = $this->generateRandomString();
 
 		$user = new User([
-			'email'    => self::MOCK_EMAIL,
+			'email'    => $this->getTestEmail(),
 			'password' => $this->getAppInstance()->getContainer()->get('hasher')->make($password),
 		]);
 
@@ -56,9 +53,9 @@ class AuthenticationTest extends TestCase
 	{
 		$password = $this->generateRandomString();
 
-		$user = $auth->register(self::MOCK_EMAIL, $password, []);
+		$user = $auth->register($this->getTestEmail(), $password, []);
 
-		$this->assertTrue($this->checkUserExists(self::MOCK_EMAIL));
+		$this->assertTrue($this->checkUserExists($this->getTestEmail()));
 
 		return $password;
 	}
@@ -69,7 +66,7 @@ class AuthenticationTest extends TestCase
 	 */
 	public function testAuthLogin(AuthService $auth, string $password): string
 	{
-		$auth->login(self::MOCK_EMAIL, $password);
+		$auth->login($this->getTestEmail(), $password);
 
 		$this->assertInstanceOf(User::class, $auth->getLoggedInUser());
 
@@ -93,7 +90,7 @@ class AuthenticationTest extends TestCase
 	public function testAuthLoginPasswordValidation(AuthService $auth, string $password): void
 	{
 		$this->expectException(PublicRedirectException::class);
-		$auth->login(self::MOCK_EMAIL, $this->generateRandomString());
+		$auth->login($this->getTestEmail(), $this->generateRandomString());
 	}
 
 	/**
@@ -103,7 +100,7 @@ class AuthenticationTest extends TestCase
 	public function testAuthDuplicateEmailOnRegisterValidation(AuthService $auth, string $password): void
 	{
 		$this->expectException(PublicRedirectException::class);
-		$auth->register(self::MOCK_EMAIL, $this->generateRandomString(), []);
+		$auth->register($this->getTestEmail(), $this->generateRandomString(), []);
 	}
 
 	/**
@@ -115,7 +112,7 @@ class AuthenticationTest extends TestCase
 		$auth->unregister();
 
 		$this->isNull($auth->getLoggedInUser());
-		$this->assertFalse($this->checkUserExists(self::MOCK_EMAIL));
+		$this->assertFalse($this->checkUserExists($this->getTestEmail()));
 	}
 
 	/**
@@ -134,6 +131,6 @@ class AuthenticationTest extends TestCase
 	 */
 	protected function onNotSuccessfulTest(Throwable $t): never
 	{
-		User::where(['email' => self::MOCK_EMAIL])->delete();
+		User::where(['email' => $this->getTestEmail()])->delete();
 	}
 }

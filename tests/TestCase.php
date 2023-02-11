@@ -8,6 +8,16 @@ use Slim\App;
 class TestCase extends PHPUnit_TestCase
 {
 	/**
+	 * @return string
+	 */
+	protected function getTestEmail(): string
+	{
+		$env = require __DIR__ . '/../env.php';
+
+		return $env['tests']['email'];
+	}
+
+	/**
 	 * @return App
 	 * @throws Exception
 	 */

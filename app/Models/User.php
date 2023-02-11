@@ -48,6 +48,7 @@ class User extends Model
 	public function hasRole(string $name): bool
 	{
 		return $this->whereHas('roles', function (Builder $query) use ($name) {
+			$query->where('id_user', $this->id);
 			$query->where('name', $name);
 		})->count() > 0;
 	}
