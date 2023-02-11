@@ -6,6 +6,7 @@ use App\Exceptions\PublicRedirectException;
 use App\Models\User;
 use App\Services\AuthService;
 use Tests\TestCase;
+use Throwable;
 
 /**
  * This is a full test of the authentication system
@@ -57,7 +58,7 @@ class AuthenticationTest extends TestCase
 
 		$user = $auth->register(self::MOCK_EMAIL, $password, []);
 
-		$this->assertTrue(true);
+		$this->assertTrue($this->checkUserExists(self::MOCK_EMAIL));
 
 		return $password;
 	}
@@ -70,7 +71,7 @@ class AuthenticationTest extends TestCase
 	{
 		$auth->login(self::MOCK_EMAIL, $password);
 
-		$this->assertTrue(true);
+		$this->assertInstanceOf(User::class, $auth->getLoggedInUser());
 
 		return $password;
 	}
@@ -106,9 +107,32 @@ class AuthenticationTest extends TestCase
 	}
 
 	/**
+	 * @depends testIsAuthServiceLoaded
+	 * @depends testAuthLogin
+	 */
+	public function testAuthAccountDeletion(AuthService $auth, string $password): void
+	{
+		$auth->unregister();
+
+		$this->isNull($auth->getLoggedInUser());
+		$this->assertFalse($this->checkUserExists(self::MOCK_EMAIL));
+	}
+
+	/**
+	 * Check if a user with the given email exists
+	 *
+	 * @param  string $email
+	 * @return
+	 */
+	protected function checkUserExists(string $email): bool
+	{
+		return User::where('email', $email)->count() > 0;
+	}
+
+	/**
 	 * Clean up the test user from the database
 	 */
-	public static function tearDownAfterClass(): void
+	protected function onNotSuccessfulTest(Throwable $t): never
 	{
 		User::where(['email' => self::MOCK_EMAIL])->delete();
 	}

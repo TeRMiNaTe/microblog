@@ -1,10 +1,9 @@
 <?php
 
-use App\Commands\Migrate;
-
 /**
  * List of supported CLI Commands
  */
 return [
-	'migrate' => Migrate::class,
+	'migrate' => \App\Commands\Migrate::class,
+	'seed' => \App\Commands\Seed::class,
 ];

@@ -32,5 +32,17 @@ class BaseController
 		$this->view = $this->container->get('view');
 
 		$this->router = $this->container->get('router');
+
+		$this->assignGlobalViewData();
+	}
+
+	/**
+	 * Assigns data needed in all views
+	 *
+	 * @return void
+	 */
+	protected function assignGlobalViewData(): void
+	{
+		$this->view->offsetSet('user', $this->container->get('auth')->getLoggedInUser());
 	}
 }

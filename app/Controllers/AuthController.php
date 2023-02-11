@@ -20,9 +20,7 @@ class AuthController extends BaseController
 	 */
 	public function login(Request $request, Response $response): Response
 	{
-		return $this->view->render($response, 'home.twig', [
-			'name' => $this->container->get('session')->get('user', 'name'),
-		]);
+		return $this->view->render($response, 'home.twig');
 	}
 
 	/**
@@ -79,6 +77,20 @@ class AuthController extends BaseController
 	public function handleLogout(Request $request, Response $response): Response
 	{
 		$this->container->get('session')->destroy();
+
+		return $response->withRedirect($this->router->pathFor('home'), 301);
+	}
+
+	/**
+	 * Handle user account deletion
+	 *
+	 * @param  Request  $request
+	 * @param  Response $response
+	 * @return Response
+	 */
+	public function handleUnregister(Request $request, Response $response): Response
+	{
+		$this->container->get('auth')->unregister();
 
 		return $response->withRedirect($this->router->pathFor('home'), 301);
 	}

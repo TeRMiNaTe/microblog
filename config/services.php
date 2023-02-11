@@ -9,6 +9,7 @@ $services = [
 	'session' => \App\Services\SessionService::class,
 	'hasher'  => \App\Services\HashService::class,
 	'auth'    => \App\Services\AuthService::class,
+	'roles'   => \App\Services\RoleService::class,
 ];
 
 /**

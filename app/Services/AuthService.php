@@ -10,6 +10,9 @@ use App\Models\User;
  */
 class AuthService extends BaseService
 {
+	/** @var User Instance of the logged in user */
+	protected User $user;
+
 	/**
 	 * Create a new user account
 	 *
@@ -59,9 +62,59 @@ class AuthService extends BaseService
 	public function attempt(User $user, string $password): bool
 	{
 		if ($success = $this->container->get('hasher')->check($password, $user->password)) {
-			$this->container->get('session')->set('user', $user->only(['name']));
+			$this->container->get('session')->set('user', $user->only(['id', 'name']));
 		}
 
 		return $success;
+	}
+
+	/**
+	 * Delete the account of the currently logged in user
+	 *
+	 * @throws PublicRedirectException
+	 */
+	public function unregister(): void
+	{
+		if (!$user = $this->getLoggedInUser()) {
+			throw new PublicRedirectException('No current logged-in user.');
+		}
+
+		$user->roles()->detach();
+		$user->delete();
+
+		unset($this->user);
+
+		$this->container->get('session')->destroy();
+	}
+
+	/**
+	 * Get the current logged in user instance
+	 *
+	 * @return User|null
+	 */
+	public function getLoggedInUser(): ?User
+	{
+		if (!$user_data = $this->container->get('session')->get('user')) {
+			return null;
+		}
+
+		return $this->user ??= $this->instantiateUser($user_data);
+	}
+
+	/**
+	 * Create a user instance from the session data
+	 *
+	 * @param  array  $user_data
+	 * @return User
+	 */
+	protected function instantiateUser(array $user_data): User
+	{
+		$user = new User($user_data);
+		// We asssign the ID manually, as it's a guarded attribute
+		$user->id = $user_data['id'];
+		// Tell the ORM that this is a real record that exists in the DB
+		$user->exists = true;
+
+		return $user;
 	}
 }

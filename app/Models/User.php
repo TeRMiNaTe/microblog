@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,5 +30,26 @@ class User extends Model
 	 * @var array
 	 */
 	protected $guarded = ['id'];
+
+	/**
+	 * Roles relationship
+	 */
+	public function roles()
+	{
+		return $this->belongsToMany(Role::class, 'user_roles', 'id_user', 'id_role');
+	}
+
+	/**
+	 * Check for the existance of a specific role
+	 *
+	 * @param  string  $name
+	 * @return bool
+	 */
+	public function hasRole(string $name): bool
+	{
+		return $this->whereHas('roles', function (Builder $query) use ($name) {
+			$query->where('name', $name);
+		})->count() > 0;
+	}
 
 }

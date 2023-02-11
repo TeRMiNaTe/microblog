@@ -15,13 +15,22 @@ class BlogController extends BaseController
 	 *
 	 * @param  Request  $request
 	 * @param  Response $response
-	 * @param  array    $args
 	 * @return Response
 	 */
-	public function list(Request $request, Response $response, array $args): Response
+	public function list(Request $request, Response $response): Response
 	{
-		return $this->view->render($response, 'blog.twig', [
-			// 'name' => $args['name']
-		]);
+		return $this->view->render($response, 'blog.twig');
+	}
+
+	/**
+	 * Display the page for publishing a new post
+	 *
+	 * @param  Request  $request
+	 * @param  Response $response
+	 * @return Response
+	 */
+	public function publish(Request $request, Response $response): Response
+	{
+		return $this->view->render($response, 'publish.twig');
 	}
 }

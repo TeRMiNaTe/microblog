@@ -70,6 +70,8 @@ class SessionService extends BaseService
 	{
 		$_SESSION = [];
 
-		session_destroy();
+		if (session_status() == PHP_SESSION_ACTIVE) {
+			session_destroy();
+		}
 	}
 }

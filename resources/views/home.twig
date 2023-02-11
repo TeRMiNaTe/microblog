@@ -6,19 +6,25 @@
 <div class="row justify-content-md-center">
 	<div class="col-lg-6">
 		<div class="my-5">
-			<h2>Welcome{{ name ? ', ' ~ name : '' }}
+			<h2>Welcome{{ user.name ? ', ' ~ user.name : '' }}
 			</h2>
 		</div>
-		{% if name %}
+		{% if user %}
 		<div class="my-5">
 			<div class="text-center"><a class="btn btn-primary btn-inverse form-control" href="{{ path_for('blog') }}">Check out our blog</a></div>
 		</div>
 		<div class="my-5">
-			<div class="mb-2">Had enough of reading?<br />No worries, you can come back later!</div>
+			<div class="mb-2">Tired of reading?<br />No worries, you can come back later!</div>
 			<a class="btn btn-danger" href="{{ path_for('auth-logout') }}">Log out</a>
 		</div>
+		<div class="my-5">
+			<div class="mb-2">Had enough of our amazing content?</div>
+			<form action="{{ path_for('auth-unregister') }}" method="post" role="form">
+				<button class="btn btn-dark form-control" type="submit">Delete account</button>
+			</form>
+		</div>
 		{% else %}
-		<form action="{{ path_for('auth-login') }}" method="post" role="form" class="php-email-form">
+		<form action="{{ path_for('auth-login') }}" method="post" role="form">
 			<div class="row">
 				<div class="col-md-6 form-group mt-3 mt-md-0">
 					<input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
