@@ -53,4 +53,12 @@ class User extends Model
 		})->count() > 0;
 	}
 
+	/**
+	 * Posts relationship
+	 */
+	public function posts()
+	{
+		return $this->hasMany(Post::class, 'id_author');
+	}
+
 }

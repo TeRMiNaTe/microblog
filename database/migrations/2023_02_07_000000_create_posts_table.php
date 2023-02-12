@@ -18,7 +18,7 @@ return new class extends Migration
 			$table->string('title');
 			$table->text('content');
 			$table->string('featured_image');
-			$table->unsignedInteger('id_author');
+			$table->unsignedInteger('id_author')->nullable();
 			$table->timestamps();
 		});
 	}

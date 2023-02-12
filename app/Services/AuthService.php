@@ -80,6 +80,7 @@ class AuthService extends BaseService
 		}
 
 		$user->roles()->detach();
+		$user->posts()->update(['id_author' => null]);
 		$user->delete();
 
 		unset($this->user);

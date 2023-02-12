@@ -9,6 +9,7 @@
 		{% include 'layouts/components/partials/form-error.twig' %}
 
 		<!-- ======= Blog Section ======= -->
+		{% if not list is empty %}
 		<section id="blog" class="blog">
 			<div class="entries" data-aos="fade-up">
 			{% for post in list %}
@@ -22,7 +23,9 @@
 
 					<div class="entry-meta">
 						<ul>
+							{% if post.author.name %}
 							<li class="d-flex align-items-center"><i class="bi bi-person"></i> <a>{{ post.author.name }}</a></li>
+							{% endif %}
 							<li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a><time datetime="{{ post.created_at.format('Y-m-d') }}">{{ post.created_at.format('M jS, Y H:i') }}</time></a></li>
 							{% if post.updated_at.notEqualTo(post.created_at) %}
 							<li class="d-flex align-items-center"><i class="bi bi-pencil"></i> <a><time datetime="{{ post.updated_at.format('Y-m-d') }}">{{ post.updated_at.format('M jS, Y H:i') }}</time></a></li>
@@ -48,6 +51,12 @@
 			{% endfor %}
 			</div>
 		</section>
+		{% else %}
+		<div class="my-5">
+			<div class="mb-2">Nothing here yet!<br />Why not share some of your own stories to fill this space?</div>
+			<a class="btn btn-primary form-control" href="{{ path_for('publish') }}">Publish</a>
+		</div>
+		{% endif %}
 
 	</div>
 </div>

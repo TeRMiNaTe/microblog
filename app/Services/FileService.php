@@ -95,6 +95,7 @@ class FileService extends BaseService
 
 	/**
 	 * Uploads or moves a file to the storage system
+	 * Will create the directory if it does not already exist
 	 *
 	 * @param  UploadedFile $file
 	 * @param  string       $filename
@@ -103,6 +104,12 @@ class FileService extends BaseService
 	 */
 	protected function upload(UploadedFile $file, string $filename, ?string $subdirectory = null): void
 	{
+		$dir = $this->getFileDirectory($subdirectory);
+
+		if (!is_writable($dir)) {
+			mkdir($dir, 0755, true);
+		}
+
 		$file->moveTo($this->getFileDirectory($subdirectory) . $filename);
 	}
 

@@ -29,9 +29,10 @@
         }
     },
     "scripts": {
-        "start": "php -S localhost:8888 -t public public/index.php",
         "setup": [
-            "@php -r \"file_exists('env.php') || copy('env.php.dist', 'env.php');\"",
+            "@php -r \"file_exists('env.php') || copy('env.php.dist', 'env.php');\""
+        ],
+        "seed": [
             "php public/index.php migrate refresh 2023_02_07_000000_create_users_table",
             "php public/index.php migrate refresh 2023_02_07_000000_create_user_roles_table",
             "php public/index.php migrate refresh 2023_02_07_000000_create_posts_table",

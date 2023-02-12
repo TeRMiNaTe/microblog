@@ -40,9 +40,9 @@ class PostService extends BaseService
 	 * @param  int               $id
 	 * @param  array             $blog_data
 	 * @param  UploadedFile|null $image
-	 * @return void
+	 * @return Post
 	 */
-	public function update(int $id, array $blog_data, ?UploadedFile $image = null): void
+	public function update(int $id, array $blog_data, ?UploadedFile $image = null): Post
 	{
 		if (!$post = Post::find($id)) {
 			throw new PublicRedirectException('Failed to update post. Post with ID #'.$id.' not found.');
@@ -60,6 +60,8 @@ class PostService extends BaseService
 		}
 
 		$post->save();
+
+		return $post;
 	}
 
 	/**
