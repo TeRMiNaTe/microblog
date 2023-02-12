@@ -61,7 +61,7 @@ class RoleTest extends TestCase
 	 * @depends testIsRoleServiceLoaded
 	 * @depends testRolesExist
 	 */
-	public function testRoleAlreadyGranted(RoleService $roles): void
+	public function testRoleAlreadyGrantedException(RoleService $roles): void
 	{
 		$role = Role::inRandomOrder()->first();
 
@@ -80,7 +80,7 @@ class RoleTest extends TestCase
 	 * @depends testIsRoleServiceLoaded
 	 * @depends testRolesExist
 	 */
-	public function testRoleAlreadyRevoked(RoleService $roles): void
+	public function testRoleAlreadyRevokedException(RoleService $roles): void
 	{
 		$role = Role::inRandomOrder()->first();
 

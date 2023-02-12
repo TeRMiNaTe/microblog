@@ -10,6 +10,8 @@ $services = [
 	'hasher'  => \App\Services\HashService::class,
 	'auth'    => \App\Services\AuthService::class,
 	'roles'   => \App\Services\RoleService::class,
+	'posts'   => \App\Services\PostService::class,
+	'files'   => \App\Services\FileService::class,
 ];
 
 /**

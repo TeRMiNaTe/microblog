@@ -24,6 +24,6 @@ class AuthenticatedMiddleware extends BaseMiddleware
 			return $response->withRedirect($this->container->get('router')->pathFor('home'), 301);
 		}
 
-		return $next($request, $response);;
+		return $next($request, $response);
 	}
 }

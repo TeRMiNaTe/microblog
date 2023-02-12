@@ -6,23 +6,11 @@
 <div class="row justify-content-md-center">
 	<div class="col-lg-6">
 		{% if user.hasRole('publisher') %}
-		<div class="my-5">
-			<h2>Create a new post</h2>
-		</div>
-		<form action="#" method="post" role="form">
+			<div class="my-5">
+				<h2>Create a new post</h2>
+			</div>
 
-			<div class="row">
-				<div class="col-md-6 form-group mt-3 mt-md-0">
-					<input type="text" class="form-control" name="title" id="title" placeholder="Post Title" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12 form-group">
-					<textarea class="form-control" rows="5" placeholder="Something amazing..."></textarea>
-				</div>
-			</div>
-			<div class="text-center mb-2"><button class="btn btn-primary form-control" type="submit">Publish</button></div>
-		</form>
+			{% include 'publishing/components/post-edit-form.twig' %}
 		{% endif %}
 
 		<div class="my-5">
@@ -37,8 +25,6 @@
 					<input type="hidden" name="action" value="apply">
 					<button class="btn btn-success form-control" type="submit">Request Publishing Rights</button>
 				{% endif %}
-
-				{% include 'layouts/components/partials/form-error.twig' %}
 			</form>
 		</div>
 	</div>

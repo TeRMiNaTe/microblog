@@ -1,0 +1,15 @@
+{% extends 'layouts/main.twig' %}
+
+{% block title %}Edit{% endblock %}
+
+{% block content %}
+<div class="row justify-content-md-center">
+	<div class="col-lg-6">
+		<div class="my-5">
+			<h2>Edit post</h2>
+		</div>
+
+		{% include 'publishing/components/post-edit-form.twig' with { 'post': post } %}
+	</div>
+</div>
+{% endblock %}
